@@ -11,14 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> myList = [
-    'EUR',
-    'USD',
-    'RUB',
-    'EUR',
-    'USD',
-    'RUB',
-  ];
 
   MainView? _mainView;
   Future<ApiResponse>? rate;
@@ -35,6 +27,7 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: Text("Dollar Rate"),
         actions: [
           IconButton(
@@ -61,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Container(
                               width: size.width * 1.0,
-                              height: 110,
+                              height: 120,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: Colors.black12,
@@ -75,33 +68,53 @@ class _HomePageState extends State<HomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Text(
-                                        snapshot.data?.data[index].nbuCellPrice
-                                            .toString()
-                                            .length ==
-                                            0
-                                            ? "---"
-                                            : snapshot.data?.data[index]
-                                            .nbuCellPrice ??
-                                            "---",
-                                        style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.teal),
-                                      ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            snapshot.data?.data[index].title
+                                                .toString()
+                                                .length ==
+                                                0
+                                                ? "---"
+                                                : snapshot
+                                                .data?.data[index].title ??
+                                                "---",
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.teal),
+                                          ),
+                                        ),
+                                        SizedBox(width: 30),
+                                        Text(
+                                            snapshot.data?.data[index].code
+                                                .toString()
+                                                .length ==
+                                                0
+                                                ? "---"
+                                                : snapshot
+                                                .data?.data[index].code ??
+                                                "---",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.teal),
+                                          ),
+                                      ],
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
                                           left: 20, right: 20, top: 7),
                                       child: Row(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'MB kursi',
@@ -110,7 +123,15 @@ class _HomePageState extends State<HomePage> {
                                                     fontSize: 15),
                                               ),
                                               Text(
-                                                '10772.44',
+                                                snapshot.data?.data[index]
+                                                            .cbPrice
+                                                            .toString()
+                                                            .length ==
+                                                        0
+                                                    ? "---"
+                                                    : snapshot.data?.data[index]
+                                                            .cbPrice ??
+                                                        "---",
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 13),
@@ -121,20 +142,30 @@ class _HomePageState extends State<HomePage> {
                                             padding: EdgeInsets.only(left: 50),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   'Sotib olish',
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       fontSize: 15),
                                                 ),
                                                 Text(
-                                                  '11200.00',
+                                                  snapshot.data?.data[index]
+                                                              .nbuBuyPrice
+                                                              .toString()
+                                                              .length ==
+                                                          0
+                                                      ? "---"
+                                                      : snapshot
+                                                              .data
+                                                              ?.data[index]
+                                                              .nbuBuyPrice ??
+                                                          "---",
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       fontSize: 13),
                                                 ),
                                               ],
@@ -144,26 +175,55 @@ class _HomePageState extends State<HomePage> {
                                             padding: EdgeInsets.only(left: 50),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   'Sotish',
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       fontSize: 15),
                                                 ),
                                                 Text(
-                                                  '11400.00',
+                                                  snapshot.data?.data[index]
+                                                              .nbuCellPrice
+                                                              .toString()
+                                                              .length ==
+                                                          0
+                                                      ? "---"
+                                                      : snapshot
+                                                              .data
+                                                              ?.data[index]
+                                                              .nbuCellPrice ??
+                                                          "---",
                                                   style: TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       fontSize: 13),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10,top: 10),
+                                      child: Text(
+                                        snapshot.data?.data[index]
+                                            .date
+                                            .toString()
+                                            .length ==
+                                            0
+                                            ? "---"
+                                            : snapshot.data?.data[index]
+                                            .date ??
+                                            "---",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                          color: Colors.deepPurple
+                                        ),
                                       ),
                                     )
                                   ],
