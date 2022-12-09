@@ -58,12 +58,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Dollar Rate"),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => super.widget));
-              },
+              onPressed: () {},
               icon: Icon(Icons.refresh)),
         ],
       ),
