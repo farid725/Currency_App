@@ -1,3 +1,4 @@
+import 'package:animate_gradient/animate_gradient.dart';
 import 'package:currency_app/main_view_model/api_response.dart';
 import 'package:currency_app/main_view_model/view_model.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   MainView? _mainView;
   Future<ApiResponse>? rate;
 
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     rate = _mainView?.fetch();
   }
 
-  List <String> images = [
+  List<String> images = [
     'images/AED.png',
     'images/AUD.png',
     'images/CAD.png',
@@ -54,234 +54,241 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal.shade900,
         title: Text("Dollar Rate"),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.refresh)),
-        ],
       ),
-      body: Container(
-          height: size.height,
-          child: FutureBuilder(
-              future: rate,
-              builder: (context, snapshot) {
-                if (snapshot.data?.status == Status.SUCCES) {
-                  return Padding(
-                    padding: EdgeInsets.zero,
-                    child: ListView.builder(
-                      itemCount: snapshot.data?.data.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              top: 10,
-                            ),
-                            child: Container(
-                              width: size.width * 1.0,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black12,
-                                    width: 5.0,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
+      body: AnimateGradient(
+        primaryColors: const [
+          Colors.teal,
+          Colors.tealAccent,
+          Colors.white,
+        ],
+        secondaryColors: const [
+          Colors.blue,
+          Colors.blueAccent,
+          Colors.white,
+        ],
+        child: Container(
+            height: size.height,
+            child: FutureBuilder(
+                future: rate,
+                builder: (context, snapshot) {
+                  if (snapshot.data?.status == Status.SUCCES) {
+                    return Padding(
+                      padding: EdgeInsets.zero,
+                      child: ListView.builder(
+                        itemCount: snapshot.data?.data.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                top: 10,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            snapshot.data?.data[index].title
+                              child: Container(
+                                width: size.width * 1.0,
+                                height: 140,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black12,
+                                      width: 5.0,
+                                      style: BorderStyle.solid),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          snapshot.data?.data[index].title
+                                              .toString()
+                                              .length ==
+                                              0
+                                              ? "---"
+                                              : snapshot
+                                              .data?.data[index].title ??
+                                              "---",
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.teal.shade600),
+                                        ),
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Image(
+                                              image: AssetImage(images[index]),
+                                              height: 15,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            snapshot.data?.data[index].code
                                                 .toString()
                                                 .length ==
                                                 0
                                                 ? "---"
                                                 : snapshot
-                                                .data?.data[index].title ??
+                                                .data?.data[index].code ??
                                                 "---",
                                             style: TextStyle(
-                                                fontSize: 25,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.teal),
                                           ),
-                                        ),
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 10),
-                                              child: Image(
-                                                image: AssetImage(
-                                                    images[index]
-                                                ),
-                                                height: 15,
-                                              ),
-                                            ),
-                                            SizedBox(width: 5,),
-                                            Text(
-                                              snapshot.data?.data[index].code
-                                                  .toString()
-                                                  .length ==
-                                                  0
-                                                  ? "---"
-                                                  : snapshot
-                                                  .data?.data[index].code ??
-                                                  "---",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.teal),
-                                            ),
-                                          ],
-                                        ),                                        
-                                        Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 20, right: 20, top: 7),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'MB kursi',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15),
-                                              ),
-                                              Text(
-                                                snapshot.data?.data[index]
-                                                    .cbPrice
-                                                    .toString()
-                                                    .length ==
-                                                    0
-                                                    ? "---"
-                                                    : snapshot.data?.data[index]
-                                                    .cbPrice ??
-                                                    "---",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 13),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 50),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Sotib olish',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  snapshot.data?.data[index]
-                                                      .nbuBuyPrice
-                                                      .toString()
-                                                      .length ==
-                                                      0
-                                                      ? "---"
-                                                      : snapshot
-                                                      .data
-                                                      ?.data[index]
-                                                      .nbuBuyPrice ??
-                                                      "---",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 13),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 50),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Sotish',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  snapshot.data?.data[index]
-                                                      .nbuCellPrice
-                                                      .toString()
-                                                      .length ==
-                                                      0
-                                                      ? "---"
-                                                      : snapshot
-                                                      .data
-                                                      ?.data[index]
-                                                      .nbuCellPrice ??
-                                                      "---",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 13),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
                                         ],
                                       ),
-                                    ),
-                                        Padding(
-                                      padding: EdgeInsets.only(left: 20,top: 20),
-                                      child: Text(
-                                        snapshot.data?.data[index]
-                                            .date
-                                            .toString()
-                                            .length ==
-                                            0
-                                            ? "---"
-                                            : snapshot.data?.data[index]
-                                            .date ??
-                                            "---",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10,
-                                            color: Colors.deepPurple
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, top: 7),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'MB kursi',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15),
+                                                ),
+                                                Text(
+                                                  snapshot.data?.data[index]
+                                                      .cbPrice
+                                                      .toString()
+                                                      .length ==
+                                                      0
+                                                      ? "---"
+                                                      : snapshot.data?.data[index]
+                                                      .cbPrice ??
+                                                      "---",
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 13),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 50),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Sotib olish',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 15),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data?.data[index]
+                                                        .nbuBuyPrice
+                                                        .toString()
+                                                        .length ==
+                                                        0
+                                                        ? "---"
+                                                        : snapshot
+                                                        .data
+                                                        ?.data[index]
+                                                        .nbuBuyPrice ??
+                                                        "---",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 13),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 50),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Sotish',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 15),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data?.data[index]
+                                                        .nbuCellPrice
+                                                        .toString()
+                                                        .length ==
+                                                        0
+                                                        ? "---"
+                                                        : snapshot
+                                                        .data
+                                                        ?.data[index]
+                                                        .nbuCellPrice ??
+                                                        "---",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold,
+                                                        fontSize: 13),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                      ],
-                                    ),
+                                      Padding(
+                                        padding:
+                                        EdgeInsets.only(left: 20, top: 20),
+                                        child: Text(
+                                          snapshot.data?.data[index].date
+                                              .toString()
+                                              .length ==
+                                              0
+                                              ? "---"
+                                              : snapshot.data?.data[index].date ??
+                                              "---",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10,
+                                              color: Colors.deepPurple),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           );
-                      },
-                    ),
-                  );
-                } else if (snapshot.data?.status == Status.ERROR) {
-                  return Text("Error ...");
-                } else if (snapshot.data?.status == Status.INITIAL) {
-                  return Text("INItial ...");
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              })),
+                        },
+                      ),
+                    );
+                  } else if (snapshot.data?.status == Status.ERROR) {
+                    return Text("Error ...");
+                  } else if (snapshot.data?.status == Status.INITIAL) {
+                    return Text("INItial ...");
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                })),
+      ),
+
     );
   }
 }
